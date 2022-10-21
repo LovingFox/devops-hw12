@@ -19,19 +19,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.builder
+      args:
+        - HOST=mariadb
+        - USER=justuser
+        - DATABASE=justdb
+        - PASSWORD=${DATABASE_PASSWORD}
     volumes:
       - type: volume
         source: webapps
         target: /webapps
-    environment:
-      - HOST=mariadb
-      - USER=justuser
-      - DATABASE=justdb
-      - PASSWORD=${DATABASE_PASSWORD}
 
   webserver:
     # based on adoptopenjdk/openjdk11:jre-11.0.6_10-alpine
-    # and Tomcat
+    # and Tomcat v9.0.68
     container_name: webserver
     build:
       context: .

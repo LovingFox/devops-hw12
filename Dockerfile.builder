@@ -13,7 +13,6 @@ app42.paas.db.password = \"$PASSWORD\"\n\
 app42.paas.db.ip = \"$HOST\"\n\
 app42.paas.db.name = \"$DATABASE\"\n\
 " > $CONF_FILE
-CMD bash
-#RUN mvn clean package
-#CMD rm -rf /webapps/ROOT* && \
-#    cp target/*.war /webapps/ROOT.war
+RUN mvn clean package
+CMD rm -rf /webapps/ROOT* && \
+    cp target/*.war /webapps/ROOT.war
