@@ -1,0 +1,50 @@
+---
+version: "3.9"
+services:
+  mariadb:
+    image: linuxserver/mariadb:10.6.9
+    container_name: mariadb
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Moscow
+      - MYSQL_DATABASE=justdb
+      - MYSQL_USER=justuser
+      - MYSQL_ROOT_PASSWORD=${ROOT_ACCESS_PASSWORD}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+
+  builder:
+    # based on maven:3.8-eclipse-temurin-11-alpine
+    container_name: builder
+    build:
+      context: .
+      dockerfile: Dockerfile.builder
+    volumes:
+      - type: volume
+        source: webapps
+        target: /webapps
+    environment:
+      - HOST=mariadb
+      - USER=justuser
+      - DATABASE=justdb
+      - PASSWORD=${DATABASE_PASSWORD}
+
+  webserver:
+    # based on adoptopenjdk/openjdk11:jre-11.0.6_10-alpine
+    # and Tomcat
+    container_name: webserver
+    build:
+      context: .
+      dockerfile: Dockerfile.webserver
+    volumes:
+      - type: volume
+        source: webapps
+        target: /opt/tomcat/webapps/
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+        mode: host
+
+volumes:
+  webapps:
