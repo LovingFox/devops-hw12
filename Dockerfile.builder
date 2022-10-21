@@ -12,7 +12,7 @@ app42.paas.db.port = \"3306\"\n\
 app42.paas.db.password = \"$PASSWORD\"\n\
 app42.paas.db.ip = \"$HOST\"\n\
 app42.paas.db.name = \"$DATABASE\"\n\
-' > $CONF_FILE
+" > $CONF_FILE
 CMD bash
 #RUN mvn clean package
 #CMD rm -rf /webapps/ROOT* && \
