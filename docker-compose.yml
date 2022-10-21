@@ -1,18 +1,6 @@
 ---
 version: "3.9"
 services:
-  mariadb:
-    image: linuxserver/mariadb:10.6.9
-    container_name: mariadb
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Moscow
-      - MYSQL_DATABASE=justdb
-      - MYSQL_USER=justuser
-      - MYSQL_ROOT_PASSWORD=${ROOT_ACCESS_PASSWORD}
-      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
-
   builder:
     # based on maven:3.8-eclipse-temurin-11-alpine
     container_name: builder
@@ -28,6 +16,23 @@ services:
       - type: volume
         source: webapps
         target: /webapps
+
+  mariadb:
+    image: linuxserver/mariadb:10.6.9
+    container_name: mariadb
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Moscow
+      - MYSQL_DATABASE=justdb
+      - MYSQL_USER=justuser
+      - MYSQL_ROOT_PASSWORD=${ROOT_ACCESS_PASSWORD}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+    healthcheck:
+      test: mysqladmin ping -p ${ROOT_ACCESS_PASSWORD}
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   webserver:
     # based on adoptopenjdk/openjdk11:jre-11.0.6_10-alpine
@@ -45,6 +50,10 @@ services:
         published: 8080
         protocol: tcp
         mode: host
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
 
 volumes:
-  webapps:
+  webajpps:
