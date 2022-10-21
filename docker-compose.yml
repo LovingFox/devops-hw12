@@ -30,9 +30,10 @@ services:
       - MYSQL_PASSWORD=${DATABASE_PASSWORD}
     healthcheck:
       test: mysqladmin ping -p${ROOT_ACCESS_PASSWORD}
-      interval: 10s
-      timeout: 5s
+      interval: 60s
+      timeout: 10s
       retries: 3
+      start_period: 2m
 
   webserver:
     # based on adoptopenjdk/openjdk11:jre-11.0.6_10-alpine
@@ -53,9 +54,6 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
-    deploy:
-      restart_policy:
-        condition: always
 
 
 volumes:
