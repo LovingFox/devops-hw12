@@ -18,7 +18,7 @@ Tomcat application with MySQL DB based on the test project:
 ```bash
 git clone https://github.com/LovingFox/devops-hw12.git
 ```
-2. Add MySQL DB passwords
+2. Set MySQL DB passwords
 ```bash
 export ROOT_ACCESS_PASSWORD=<root password>
 export DATABASE_PASSWORD=<database password>
