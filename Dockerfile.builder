@@ -4,7 +4,7 @@ RUN apk update && \
 ARG USER PASSWORD HOST DATABASE
 ENV REPO_DIR=repo \
     REPO=https://github.com/shephertz/App42PaaS-Java-MySQL-Sample \
-    CONF_FILE=WebContent/Config.properties \
+    CONF_FILE=WebContent/Config.properties
 RUN git clone $REPO /$REPO_DIR
 WORKDIR /$REPO_DIR
 RUN echo -e "\
