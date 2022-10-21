@@ -17,6 +17,7 @@ Tomcat application with MySQL DB based on the test project:
 1. Download repository
 ```bash
 git clone https://github.com/LovingFox/devops-hw12.git
+cd devops-hw12
 ```
 2. Set MySQL DB passwords
 ```bash
