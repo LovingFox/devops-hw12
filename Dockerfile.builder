@@ -3,10 +3,12 @@ RUN apk update && \
     apk add git
 ARG USER PASSWORD HOST DATABASE
 ENV REPO_DIR=repo \
-    REPO=https://github.com/shephertz/App42PaaS-Java-MySQL-Sample \
+    REPO=https://github.com/shephertz/App42PaaS-Java-MySQL-Sample.git \
     CONF_FILE=WebContent/Config.properties
 RUN git clone $REPO /$REPO_DIR
 WORKDIR /$REPO_DIR
+RUN sed -i 's/ROOT/webapps\/ROOT/' \
+    src/com/shephertz/app42/paas/sample/util/Util.java
 RUN echo -e "\
 app42.paas.db.username = $USER\n\
 app42.paas.db.port = 3306\n\
